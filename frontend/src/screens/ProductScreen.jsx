@@ -1,6 +1,14 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { Row, Col, Image, ListGroup, Button, Card } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  Row,
+  Col,
+  Image,
+  ListGroup,
+  Button,
+  Card,
+  Form,
+} from "react-bootstrap";
 import Rating from "../components/Rating";
 
 import { useParams } from "react-router-dom";
@@ -10,18 +18,30 @@ import { startGettingProductDetail } from "../store/products/thunks";
 
 import Loader from "../components/Loader";
 import Message from "../components/Message";
+import { addToCart } from "../store/cart/cartSlice";
+import { startAddingToCart } from "../store/cart/thunks";
+// import { startAddingProductsCart } from "../store/cart/thunks";
 
 const ProductScreen = () => {
-  const { id } = useParams();
+  //catidad de productos que se va a comprar el user cambiara este valor por dropdown
+  const [qty, setQty] = useState(1);
+  const navigate = useNavigate();
 
+  const { id } = useParams();
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(startGettingProductDetail(id));
   }, [dispatch, id]);
+
   const { product, loading, errorMessage } = useSelector(
     (state) => state.productDetails
   );
+
+  const addToCartHandler = () => {
+    dispatch(startAddingToCart(product, qty));
+    navigate("/cart");
+  };
 
   return (
     <div>
@@ -78,8 +98,31 @@ const ProductScreen = () => {
                     </Col>
                   </Row>
                 </ListGroup.Item>
+                {product.countInStock > 0 && (
+                  <ListGroup.Item>
+                    <Row>
+                      <Col>Qty</Col>
+                      <Col xs="auto" className="my-1">
+                        <Form.Control
+                          as="select"
+                          value={qty}
+                          onChange={(e) => setQty(e.target.value)}
+                        >
+                          {/* de esta manera podemos crear un dropdown con la cantidad de items en nuestra
+                          db */}
+                          {[...Array(product.countInStock).keys()].map((x) => (
+                            <option key={x + 1} value={x + 1}>
+                              {x + 1}
+                            </option>
+                          ))}
+                        </Form.Control>
+                      </Col>
+                    </Row>
+                  </ListGroup.Item>
+                )}
                 <ListGroup.Item>
                   <Button
+                    onClick={addToCartHandler}
                     className="d-block w-100"
                     disabled={product.countInStock == 0}
                     type="button"

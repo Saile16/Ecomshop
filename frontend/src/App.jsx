@@ -6,6 +6,7 @@ import HomeScreen from "./screens/HomeScreen";
 import ProductScreen from "./screens/ProductScreen";
 
 import { useState } from "react";
+import CartScreen from "./screens/CartScreen";
 function App() {
   return (
     <BrowserRouter>
@@ -15,6 +16,8 @@ function App() {
           <Routes>
             <Route index path="/" element={<HomeScreen />} />
             <Route path="/product/:id" element={<ProductScreen />} />
+            <Route path="/cart/:id" element={<CartScreen />} />
+            <Route path="/cart/" element={<CartScreen />} />
           </Routes>
         </Container>
       </main>

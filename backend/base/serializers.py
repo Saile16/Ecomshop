@@ -13,7 +13,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model=User
         fields=['id','_id','username','email','name','isAdmin']
-
+    #de esta manera llamamos y guardamos los datos desde la db a las variables creadas
     def get__id(self,obj):
         return obj.id
 
@@ -28,6 +28,8 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UserSerializerWithToken(UserSerializer):
+    #esta obtencion de campos es para poder mostar el token en el rest u otros campos que queramos
+    #en esta caso todos esos campos fields
     token = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = User

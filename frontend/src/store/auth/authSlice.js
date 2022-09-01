@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const userAuthSlice = createSlice({
   name: "userAuth",
   initialState: {
-    state: "not-authenticated",
+    loading: false,
     userInfo: localStorage.getItem("userInfo")
       ? JSON.parse(localStorage.getItem("userInfo"))
       : null,
@@ -11,18 +11,18 @@ export const userAuthSlice = createSlice({
   },
   reducers: {
     userLoginRequest: (state) => {
-      state.state = "checking-authentication";
+      state.loading = true;
     },
     userLoginSuccess: (state, action) => {
-      state.state = "authenticated";
+      state.loading = false;
       state.userInfo = action.payload;
     },
     userLoginFailure: (state, action) => {
-      state.state = "not-authenticated";
+      state.loading = false;
       state.errorMessage = action.payload;
     },
     userLogout: (state) => {
-      state.state = "not-authenticated";
+      //   state.loading = "";
     },
   },
 });

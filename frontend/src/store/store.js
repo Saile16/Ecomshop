@@ -9,6 +9,6 @@ export const store = configureStore({
     products: productsSlice.reducer,
     productDetails: productDetailsSlice.reducer,
     cart: cartSlice.reducer,
-    user: userAuthSlice.reducer,
+    userAuth: userAuthSlice.reducer,
   },
 });

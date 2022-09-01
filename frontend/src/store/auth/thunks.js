@@ -7,9 +7,8 @@ import {
 
 export const startLoginAuth = (email, password) => {
   return async (dispatch) => {
-    dispatch(userLoginRequest());
-
     try {
+      dispatch(userLoginRequest());
       const config = {
         headers: {
           "Content-Type": "application/json",
@@ -18,17 +17,18 @@ export const startLoginAuth = (email, password) => {
       //enviamos una peticion de axios para obteer los datos del user y ver si existe
       //o/y si se puede logear
       const { data } = await axios.post(
-        "/api/users/login/",
+        "http://127.0.0.1:8000/api/users/login/",
         {
           username: email,
           password: password,
         },
         config
       );
+
       dispatch(userLoginSuccess(data));
-      localStorage.setItem("userInfo", JSON.stringify(JSON.stringify(data)));
+      localStorage.setItem("userInfo", JSON.stringify(data));
     } catch (error) {
-      dispatch(userLoginFailure(error.message));
+      dispatch(userLoginFailure(error.response.data.detail));
     }
   };
 };

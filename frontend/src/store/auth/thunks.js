@@ -3,6 +3,7 @@ import {
   userLoginFailure,
   userLoginRequest,
   userLoginSuccess,
+  userLogout,
 } from "./authSlice";
 
 export const startLoginAuth = (email, password) => {
@@ -30,5 +31,12 @@ export const startLoginAuth = (email, password) => {
     } catch (error) {
       dispatch(userLoginFailure(error.response.data.detail));
     }
+  };
+};
+
+export const startLogoutAuth = () => {
+  localStorage.removeItem("userInfo");
+  return async (dispatch) => {
+    dispatch(userLogout());
   };
 };

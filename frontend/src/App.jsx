@@ -8,6 +8,7 @@ import ProductScreen from "./screens/ProductScreen";
 import { useState } from "react";
 import CartScreen from "./screens/CartScreen";
 import LoginScreen from "./screens/LoginScreen";
+import RegisterScreen from "./screens/RegisterScreen";
 function App() {
   return (
     <BrowserRouter>
@@ -17,6 +18,7 @@ function App() {
           <Routes>
             <Route index path="/" element={<HomeScreen />} />
             <Route path="/login" element={<LoginScreen />} />
+            <Route path="/register" element={<RegisterScreen />} />
             <Route path="/product/:id" element={<ProductScreen />} />
             <Route path="/cart/:id" element={<CartScreen />} />
             <Route path="/cart/" element={<CartScreen />} />

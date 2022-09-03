@@ -22,7 +22,7 @@ export const userAuthSlice = createSlice({
       state.errorMessage = action.payload;
     },
     userLogout: (state) => {
-      //   state.loading = "";
+      state.userInfo = null;
     },
   },
 });

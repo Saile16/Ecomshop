@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import {
   Row,
@@ -18,16 +18,24 @@ import Message from "../components/Message";
 import { startAddingToCart, startRemovingFromCart } from "../store/cart/thunks";
 
 const CartScreen = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { cartItems } = useSelector((state) => state.cart);
-  console.log(cartItems);
+  // console.log(cartItems);
+  const userLogin = useSelector((state) => state.userAuth);
+  const { userInfo } = userLogin;
 
   const removeFromCartHandler = (productId) => {
     dispatch(startRemovingFromCart(productId));
   };
 
   const checkoutHandler = () => {
-    navigate("/checkout");
+    if (userInfo) {
+      //   window.location.href = redirect;
+      navigate("/shipping");
+      return;
+    }
+    navigate("/login?redirect=shipping");
     // history.push('/login?redirect=shipping')
 
     //   const checkoutHandler = () => {

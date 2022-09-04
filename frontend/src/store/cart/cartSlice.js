@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { useEffect } from "react";
+import { startRegisterUser } from "../register/thunks";
 
 export const cartSlice = createSlice({
   name: "cart",
@@ -7,6 +8,9 @@ export const cartSlice = createSlice({
     cartItems: localStorage.getItem("cartItems")
       ? JSON.parse(localStorage.getItem("cartItems"))
       : [],
+    shippingAddress: localStorage.getItem("shippingAddress")
+      ? JSON.parse(localStorage.getItem("shippingAddress"))
+      : {},
   },
   reducers: {
     addToCart: (state, action) => {
@@ -34,8 +38,12 @@ export const cartSlice = createSlice({
         cartItems: state.cartItems.filter((x) => x._id !== action.payload),
       };
     },
+    saveShippingAddress: (state, action) => {
+      state.shippingAddress = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { addToCart, removeFromCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, saveShippingAddress } =
+  cartSlice.actions;

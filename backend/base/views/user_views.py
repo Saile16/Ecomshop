@@ -58,6 +58,22 @@ def registerUser(request):
         message ={'detail':'User with this email already exists'}
         return Response(message,status=status.HTTP_400_BAD_REQUEST)
     
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def updateUserProfile(request):
+    #gracias a la API de token el request.user devolvera varios valores y no solo el user
+    user = request.user    
+    #estamos mostrando varios productos por tanto el many va true
+    serializer=UserSerializerWithToken(user,many=False)
+    data=request.data
+    user.first_name=data['name']
+    user.username=data['email']
+    user.email=data['email']
+    #si el usuario escribio algo en el password entonces lo actualizamos
+    if data['password'] !='':
+        user.password=make_password(data['password'])
+    user.save()
+    return Response(serializer.data)
 
 #recordar esto al IMPLEMENTAR:
 #probamos el usuario desde el rest de django para obtener un token y tener el access:
@@ -72,6 +88,8 @@ def getUserProfile(request):
     #estamos mostrando varios productos por tanto el many va true
     serializer=UserSerializer(user,many=False)
     return Response(serializer.data)
+
+
 
 @api_view(['GET'])
 @permission_classes([IsAdminUser])

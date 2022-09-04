@@ -4,6 +4,7 @@ import { Form, Button } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import FormContainer from "../components/FormContainer.jsx";
 import { startSavingShippingAddress } from "../store/cart/thunks.js";
+import CheckoutSteps from "../components/CheckoutSteps.jsx";
 
 const ShippingScreen = () => {
   //este caso lo ponemos por si ya habiamos rellenado el form y por alguna razon
@@ -27,6 +28,7 @@ const ShippingScreen = () => {
   };
   return (
     <FormContainer>
+      <CheckoutSteps step1 step2 />
       <h1>Shipping</h1>
       <Form onSubmit={submitHandler}>
         <Form.Group controlId="address" className="mt-3">

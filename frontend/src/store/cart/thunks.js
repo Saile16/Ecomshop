@@ -1,4 +1,9 @@
-import { addToCart, removeFromCart, saveShippingAddress } from "./cartSlice";
+import {
+  addToCart,
+  removeFromCart,
+  savePaymentMethod,
+  saveShippingAddress,
+} from "./cartSlice";
 
 export const startAddingToCart = (product, qty) => {
   return async (dispatch, getState) => {
@@ -27,5 +32,12 @@ export const startSavingShippingAddress = (data) => {
   return async (dispatch) => {
     dispatch(saveShippingAddress(data));
     localStorage.setItem("shippingAddress", JSON.stringify(data));
+  };
+};
+
+export const startSavingPaymentMethod = (data) => {
+  return async (dispatch) => {
+    dispatch(savePaymentMethod(data));
+    localStorage.setItem("paymentMethod", JSON.stringify(data));
   };
 };

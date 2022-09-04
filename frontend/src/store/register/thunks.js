@@ -31,7 +31,7 @@ export const startRegisterUser = (name, email, password) => {
       console.log(data);
       dispatch(userRegisterSuccess(data));
       dispatch(startLoginAuth(email, password));
-      //   localStorage.setItem("userInfo", JSON.stringify(data));
+      localStorage.setItem("userInfo", JSON.stringify(data));
     } catch (error) {
       //   dispatch(userRegisterFailure(error.response.data.detail));
       console.log(error);

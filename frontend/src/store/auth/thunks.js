@@ -1,4 +1,5 @@
 import axios from "axios";
+import { userProfileReset } from "../userProfile/profileSlice";
 import {
   userLoginFailure,
   userLoginRequest,
@@ -29,7 +30,9 @@ export const startLoginAuth = (email, password) => {
       dispatch(userLoginSuccess(data));
       localStorage.setItem("userInfo", JSON.stringify(data));
     } catch (error) {
-      dispatch(userLoginFailure(error.response.data.detail));
+      //hacer ternarios para los diferentes mensajes de error
+      // dispatch(userLoginFailure(error.response.data.detail));
+      console.log(error);
     }
   };
 };
@@ -38,5 +41,6 @@ export const startLogoutAuth = () => {
   localStorage.removeItem("userInfo");
   return async (dispatch) => {
     dispatch(userLogout());
+    dispatch(userProfileReset());
   };
 };

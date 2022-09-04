@@ -70,8 +70,8 @@ def updateUserProfile(request):
     user.username=data['email']
     user.email=data['email']
     #si el usuario escribio algo en el password entonces lo actualizamos
-    if data['password'] !='':
-        user.password=make_password(data['password'])
+    if data['password'] != '':
+        user.password = make_password(data['password'])
     user.save()
     return Response(serializer.data)
 

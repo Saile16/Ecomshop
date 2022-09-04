@@ -20,13 +20,13 @@ const LoginScreen = () => {
   const redirect = location.search ? location.search.split("=")[1] : "/";
   const userLogin = useSelector((state) => state.userAuth);
   const { loading, errorMessage, userInfo } = userLogin;
-  
+
   useEffect(() => {
     if (userInfo) {
       //   window.location.href = redirect;
       navigate(redirect);
     }
-  }, [userInfo]);
+  }, [userInfo, redirect]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -63,7 +63,7 @@ const LoginScreen = () => {
       <Row className="py-3">
         <Col>
           NewCustomer{" "}
-          <Link to={redirect ? `/register` : `register?redirect=${redirect}`}>
+          <Link to={redirect ? `/register?redirect=${redirect}` : `/register`}>
             Register
           </Link>
         </Col>

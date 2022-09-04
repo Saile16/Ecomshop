@@ -9,7 +9,7 @@ export const userProfileSlice = createSlice({
   },
   reducers: {
     userProfileRequest: (state) => {
-      state.loading = true;
+      return { ...state, loading: true };
     },
     userProfileSuccess: (state, action) => {
       state.loading = false;
@@ -19,10 +19,17 @@ export const userProfileSlice = createSlice({
       state.loading = false;
       state.errorMessage = action.payload;
     },
+    userProfileReset: (state) => {
+      state.user = {};
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
 
-export const { userProfileRequest, userProfileSuccess, userProfileFailure } =
-  userProfileSlice.actions;
+export const {
+  userProfileRequest,
+  userProfileSuccess,
+  userProfileFailure,
+  userProfileReset,
+} = userProfileSlice.actions;

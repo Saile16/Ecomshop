@@ -5,6 +5,7 @@ import { productDetailsSlice } from "./products/productDetails";
 import { productsSlice } from "./products/productsSlice";
 import { userRegisterSlice } from "./register/registerSlice";
 import { userProfileSlice } from "./userProfile/profileSlice";
+import { userUpdateProfileSlice } from "./userProfile/updateProfileSlice";
 
 export const store = configureStore({
   reducer: {
@@ -14,5 +15,6 @@ export const store = configureStore({
     userAuth: userAuthSlice.reducer,
     userRegister: userRegisterSlice.reducer,
     userProfile: userProfileSlice.reducer,
+    userUpdateProfile: userUpdateProfileSlice.reducer,
   },
 });

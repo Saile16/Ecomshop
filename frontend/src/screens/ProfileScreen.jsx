@@ -6,7 +6,11 @@ import Loader from "../components/Loader.jsx";
 import Message from "../components/Message.jsx";
 
 import { useDispatch, useSelector } from "react-redux";
-import { startGettingUserProfile } from "../store/userProfile/thunks.js";
+import {
+  startGettingUserProfile,
+  startUpdatingUserProfile,
+} from "../store/userProfile/thunks.js";
+import { userUpdateProfileReset } from "../store/userProfile/updateProfileSlice.js";
 
 const ProfileScreen = () => {
   const [name, setName] = useState("");
@@ -26,19 +30,23 @@ const ProfileScreen = () => {
   const userLogin = useSelector((state) => state.userAuth);
   const { userInfo } = userLogin;
 
+  const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
+  const { success } = userUpdateProfile;
+
   useEffect(() => {
     if (!userInfo) {
       //   window.location.href = redirect;
       navigate("/login");
       return;
     }
-    if (!user || !user.name) {
+    if (!user || !user.name || success) {
+      dispatch(userUpdateProfileReset());
       dispatch(startGettingUserProfile("profile"));
     } else {
       setName(user.name);
       setEmail(user.email);
     }
-  }, [userInfo, dispatch]);
+  }, [userInfo, user, dispatch, success]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -46,7 +54,15 @@ const ProfileScreen = () => {
       setMessage("Passwords do not match");
       return;
     }
-    console.log("updating profile ");
+    dispatch(
+      startUpdatingUserProfile({
+        id: user._id,
+        name: name,
+        email: email,
+        password: password,
+      })
+    );
+    setMessage("");
   };
   return (
     <Row>

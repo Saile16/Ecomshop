@@ -3,8 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import FormContainer from "../components/FormContainer.jsx";
-import { startSavingShippingAddress } from "../store/cart/thunks.js";
 import CheckoutSteps from "../components/CheckoutSteps.jsx";
+import { startSavingShippingAddress } from "../store/cart/thunks.js";
 
 const ShippingScreen = () => {
   //este caso lo ponemos por si ya habiamos rellenado el form y por alguna razon

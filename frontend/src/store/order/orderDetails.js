@@ -4,7 +4,7 @@ export const orderDetailsSlice = createSlice({
   name: "orderDetails",
   initialState: {
     order: {},
-    shippingAddress: {},
+
     loading: false,
     errorMessage: "",
   },

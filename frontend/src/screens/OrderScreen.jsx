@@ -14,12 +14,22 @@ import { useSelector, useDispatch } from "react-redux";
 
 import Message from "../components/Message.jsx";
 import Loader from "../components/Loader.jsx";
-import { startGettingOrderDetails } from "../store/order/thunks.js";
+import {
+  startGettingOrderDetails,
+  startPayingOrder,
+} from "../store/order/thunks.js";
+import { orderPayReset } from "../store/order/orderPay.js";
+import PaypalCheckoutButton from "../components/PaypalCheckoutButton.jsx";
+
 const OrderScreen = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+
   const orderDetails = useSelector((state) => state.orderDetails);
   const { order, loading, errorMessage } = orderDetails;
+
+  const orderPay = useSelector((state) => state.orderPay);
+  const { loading: loadingPay, success: successPay } = orderPay;
   //   console.log(order);
 
   const orderTemporal = Object.assign({}, order, {});
@@ -27,13 +37,27 @@ const OrderScreen = () => {
   orderTemporal.itemsPrice = order.orderItems
     ?.reduce((acc, item) => acc + item.price * item.qty, 0)
     .toFixed(2);
+  //PAYPAL
+  //AfAq6-vbu_A5Z59iTqNGVn9EuSuFuA4n1hout5Hk-eMi0y27JGrJuboHcT6g2wAuOzIRzxhSH1yViKIg
 
   useEffect(() => {
-    if (!order || order._id !== Number(id)) {
+    if (!order || successPay || order._id !== Number(id)) {
+      // if (!order || order._id !== Number(id)) {
+      dispatch(orderPayReset());
       dispatch(startGettingOrderDetails(id));
+      return;
+    }
+    if (order.isPaid) {
+      //   if (!window.paypal) {
+      //     addPaypalScript();
+      //   } else {
+      //     setSdkReady(true);
+      //   }
+      //   setSdkReady(true);
     }
     // dispatch(startGettingOrderDetails(id));
-  }, [dispatch, id, order]);
+  }, [dispatch, id, order, successPay]);
+
   return loading ? (
     <Loader />
   ) : errorMessage ? (
@@ -148,6 +172,12 @@ const OrderScreen = () => {
                   <Col>${order.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
+              {!order.isPaid && (
+                <ListGroup.Item>
+                  {loadingPay && <Loader />}
+                  <PaypalCheckoutButton amount={order.totalPrice} id={id} />
+                </ListGroup.Item>
+              )}
             </ListGroup>
           </Card>
         </Col>

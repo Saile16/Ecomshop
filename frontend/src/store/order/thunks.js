@@ -1,6 +1,12 @@
 import axios from "axios";
 import { cartClearItems } from "../cart/cartSlice";
 import {
+  orderDetailsFail,
+  orderDetailsRequest,
+  orderDetailsSuccess,
+} from "./orderDetails";
+import { orderPayFail, orderPayRequest, orderPaySuccess } from "./orderPay";
+import {
   orderCreateFail,
   orderCreateRequest,
   orderCreateSuccess,
@@ -31,6 +37,69 @@ export const startCreatingOrder = (order) => {
       localStorage.removeItem("cartItems");
     } catch (error) {
       dispatch(orderCreateFail(error.response));
+    }
+  };
+};
+
+export const startGettingOrderDetails = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(orderDetailsRequest());
+      const {
+        userAuth: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+      const { data } = await axios.get(
+        `http://127.0.0.1:8000/api/orders/${id}/`,
+        config
+      );
+      dispatch(orderDetailsSuccess(data));
+    } catch (error) {
+      dispatch(
+        orderDetailsFail(
+          error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message
+        )
+      );
+    }
+  };
+};
+
+export const startPayingOrder = (id, paymentResult) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(orderPayRequest());
+      const {
+        userAuth: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+      const { data } = await axios.put(
+        `http://127.0.0.1:8000/api/orders/${id}/pay/`,
+        paymentResult,
+        config
+      );
+      dispatch(orderPaySuccess(data));
+    } catch (error) {
+      dispatch(
+        orderPayFail(
+          error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message
+        )
+      );
     }
   };
 };

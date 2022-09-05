@@ -24,6 +24,7 @@ import { startAddingToCart } from "../store/cart/thunks";
 
 const ProductScreen = () => {
   //catidad de productos que se va a comprar el user cambiara este valor por dropdown
+
   const [qty, setQty] = useState(1);
   const navigate = useNavigate();
 

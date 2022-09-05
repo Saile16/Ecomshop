@@ -33,7 +33,7 @@ const PlaceOrderScreen = () => {
       .reduce((acc, item) => acc + item.price * item.qty, 0)
       .toFixed(2),
   });
-  cartTemporal.shippingPrice = cartTemporal.itemsPrice > 100 ? 0 : 100;
+  cartTemporal.shippingPrice = cartTemporal.itemsPrice > 100 ? 0 : 10;
   cartTemporal.taxPrice = Number(0.082 * cartTemporal.itemsPrice).toFixed(2);
   cartTemporal.totalPrice = (
     Number(cartTemporal.itemsPrice) +

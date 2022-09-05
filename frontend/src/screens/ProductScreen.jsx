@@ -124,7 +124,7 @@ const ProductScreen = () => {
                   <Button
                     onClick={addToCartHandler}
                     className="d-block w-100"
-                    disabled={product.countInStock == 0}
+                    disabled={product.countInStock <= 0}
                     type="button"
                   >
                     Add to Card

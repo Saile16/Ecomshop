@@ -1,13 +1,28 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Row, Col, Button, ListGroup, Image, Card } from "react-bootstrap";
+import {
+  Row,
+  Col,
+  Button,
+  ListGroup,
+  Image,
+  Card,
+  ListGroupItem,
+} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import Message from "../components/Message.jsx";
 import CheckoutSteps from "../components/CheckoutSteps.jsx";
+import { startCreatingOrder } from "../store/order/thunks.js";
+import { orderCreateReset } from "../store/order/orderSlice.js";
 
 const PlaceOrderScreen = () => {
+  const orderCreate = useSelector((state) => state.orderCreate);
+  // console.log(orderCreate);
+  const { order, success, errorMessage } = orderCreate;
+  const navigate = useNavigate();
+
   const cart = useSelector((state) => state.cart);
   //   cart.itemsPrice = cart.cartItems
   //     .reduce((acc, item) => acc + item.price * item.qty, 0)
@@ -27,12 +42,30 @@ const PlaceOrderScreen = () => {
   ).toFixed(2);
   //   const cartTemporalShippingPrice = (
   //     cartTemporalPrice.itemsPrice > 100 ? 0 : 10
-  //   ).toFixed(2);
+  //   ).toFixed(2);;
   //   console.log(cartTemporalShippingPrice);
   //   console.log(cartTemporalOrder, cart);
+  const dispatch = useDispatch();
   const placeOrder = () => {
-    console.log("asd");
+    dispatch(
+      startCreatingOrder({
+        orderItems: cart.cartItems,
+        shippingAddress: cart.shippingAddress,
+        paymentMethod: cart.paymentMethod,
+        itemsPrice: cartTemporal.itemsPrice,
+        shippingPrice: cartTemporal.shippingPrice,
+        taxPrice: cartTemporal.taxPrice,
+        totalPrice: cartTemporal.totalPrice,
+      })
+    );
   };
+
+  useEffect(() => {
+    if (success) {
+      navigate(`/order/${order._id}`);
+      dispatch(orderCreateReset());
+    }
+  }, [success]);
   return (
     <div>
       <CheckoutSteps step1 step2 step3 step4 />
@@ -124,6 +157,11 @@ const PlaceOrderScreen = () => {
                 </Row>
               </ListGroup.Item>
 
+              <ListGroup.Item>
+                {errorMessage && (
+                  <Message variant="danger">{errorMessage}</Message>
+                )}
+              </ListGroup.Item>
               <ListGroup.Item>
                 <Button
                   type="button"

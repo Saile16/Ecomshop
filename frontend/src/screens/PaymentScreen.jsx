@@ -11,7 +11,7 @@ const PaymentScreen = () => {
   const cart = useSelector((state) => state.cart);
   const { shippingAddress } = cart;
   const dispatch = useDispatch();
-  const [paymentMethod, setPaymentMethod] = useState("PayPal");
+  const [paymentMethod, setPaymentMethod] = useState("Paypal");
   const navigate = useNavigate();
 
   if (!shippingAddress.address) {
@@ -35,14 +35,16 @@ const PaymentScreen = () => {
               label="PayPal or Credit Card"
               id="paypal"
               name="paymentMethod"
+              value="Paypal"
               checked
               onChange={(e) => setPaymentMethod(e.target.value)}
             ></Form.Check>
             {/* <Form.Check
               type="radio"
-              label="PayPal or Credit Card"
-              id="paypal"
+              label="Banco de Chile"
+              id="Banco de Chile"
               name="paymentMethod"
+              value="Banco de Chile"
               onChange={(e) => setPaymentMethod(e.target.value)}
             ></Form.Check> */}
           </Col>

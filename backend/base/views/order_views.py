@@ -5,7 +5,6 @@ from rest_framework.decorators import api_view,permission_classes
 from rest_framework.permissions import IsAuthenticated,IsAdminUser
 
 from rest_framework.response import Response
-from backend.base import serializers
 
 
 
@@ -23,6 +22,7 @@ from rest_framework import status
 def addOrderItems(request):
     #pedimos el user y los datos que nos enviaran del front
     user = request.user
+
     data = request.data
     orderItems = data['orderItems']
     #si no hay items en el carrito
@@ -55,12 +55,14 @@ def addOrderItems(request):
                 name=product.name,
                 qty=i['qty'],
                 price=i['price'],
-                price=i['price'],
+                
                 image=product.image.url,
             )
 
             # (4) Update stock
             product.countInStock -= item.qty
             product.save()
-    serializer=OrderSerializer(order,many=False)    
-    return Response(serializer.data)
+            
+        serializer=OrderSerializer(order,many=False)    
+        print(data)
+        return Response(serializer.data)

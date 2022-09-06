@@ -1,6 +1,8 @@
+import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
+
 import { useDispatch, useSelector } from "react-redux";
 
 import Loader from "../components/Loader.jsx";
@@ -24,12 +26,11 @@ const ProductEditScreen = () => {
   const [category, setCategory] = useState("");
   const [countInStock, setCountInStock] = useState(0);
   const [description, setDescription] = useState("");
+  const [uploading, setUploading] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-
-  const redirect = location.search ? location.search.split("=")[1] : "/";
 
   const productDetails = useSelector((state) => state.productDetails);
   const { loading, errorMessage, product } = productDetails;
@@ -40,7 +41,7 @@ const ProductEditScreen = () => {
     success: successUpdate,
     loading: loadingUpdate,
   } = productUpdate;
-  console.log(productUpdate);
+  //   console.log(productUpdate);
 
   useEffect(() => {
     if (successUpdate) {
@@ -77,6 +78,35 @@ const ProductEditScreen = () => {
       })
     );
   };
+
+  const uploadFileHandler = async (e) => {
+    // console.log("tuch");
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append("image", file);
+    formData.append("product_id", id);
+    setUploading(true);
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+      const { data } = await axios.post(
+        "http://127.0.0.1:8000/api/products/upload/",
+        formData,
+        config
+      );
+      setImage(data);
+      setUploading(false);
+    } catch (error) {
+      setUploading(false);
+      console.log(error);
+    }
+    // console.log(file);
+    // console.log(e.target.files);
+  };
+
   return (
     <div>
       <Link to={`/admin/productlist`}>Go back</Link>
@@ -116,10 +146,17 @@ const ProductEditScreen = () => {
                 type="text"
                 placeholder="Enter Image"
                 value={image}
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => setImage(e.target.value)}
               ></Form.Control>
             </Form.Group>
-
+            <Form.Control
+              custom="true"
+              type="file"
+              onChange={uploadFileHandler}
+              label="Enter Image"
+              id="image-file"
+            ></Form.Control>
+            {uploading && <Loader />}
             <Form.Group controlId="brand">
               <Form.Label>Name</Form.Label>
               <Form.Control

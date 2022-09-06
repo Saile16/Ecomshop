@@ -12,7 +12,9 @@ urlpatterns = [
     #creamos carpetas de views y urls, ver en el git
     path('', views.getProducts, name='get-products'),
     path('create/', views.createProduct, name='create-product'),
+    path('upload/', views.uploadImage, name='upload-image'),
     path('<str:pk>/', views.getProduct, name='get-product'),
+
     path('update/<str:pk>/', views.updateProduct, name='update-product'),
     path('delete/<str:pk>/', views.deleteProduct, name='delete-product'),
 ]

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { orderListReset } from "../order/orderList";
 import { userProfileReset } from "../userProfile/profileSlice";
 import {
   userLoginFailure,
@@ -42,5 +43,6 @@ export const startLogoutAuth = () => {
   return async (dispatch) => {
     dispatch(userLogout());
     dispatch(userProfileReset());
+    dispatch(orderListReset());
   };
 };

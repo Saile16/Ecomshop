@@ -5,6 +5,7 @@ import {
   orderDetailsRequest,
   orderDetailsSuccess,
 } from "./orderDetails";
+import { orderListFail, orderListRequest, orderListSuccess } from "./orderList";
 import { orderPayFail, orderPayRequest, orderPaySuccess } from "./orderPay";
 import {
   orderCreateFail,
@@ -95,6 +96,37 @@ export const startPayingOrder = (id, paymentResult) => {
     } catch (error) {
       dispatch(
         orderPayFail(
+          error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message
+        )
+      );
+    }
+  };
+};
+
+export const startGettingOrderList = () => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(orderListRequest());
+      const {
+        userAuth: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+      const { data } = await axios.get(
+        `http://127.0.0.1:8000/api/orders/myorders/`,
+        config
+      );
+      dispatch(orderListSuccess(data));
+    } catch (error) {
+      dispatch(
+        orderListFail(
           error.response && error.response.data.detail
             ? error.response.data.detail
             : error.message

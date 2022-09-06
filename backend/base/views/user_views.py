@@ -100,9 +100,37 @@ def getUsers(request):
     return Response(serializer.data)    
 
 
+@api_view(['GET'])
+@permission_classes([IsAdminUser])
+def getUserById(request,pk):
+    user=User.objects.get(id=pk)
+    #estamos mostrando varios productos por tanto el many va true
+    serializer=UserSerializer(user,many=False)
+    return Response(serializer.data)    
+
+
+@api_view(['PUT'])
+@permission_classes([IsAdminUser])
+def updateUser(request,pk):
+    #gracias a la API de token el request.user devolvera varios valores y no solo el user
+    user = User.objects.get(id=pk)
+    data=request.data
+    user.first_name=data['name']
+    user.username=data['email']
+    user.email=data['email']
+    user.is_staff=data['isAdmin']
+    #si el usuario escribio algo en el password entonces lo actualizamos
+  
+    user.save()    
+    serializer=UserSerializer(user,many=False)
+    return Response(serializer.data)
+
+
 @api_view(['DELETE'])
 @permission_classes([IsAdminUser])
 def deleteUser(request,pk):
     userForDeletion=User.objects.get(id=pk)
     userForDeletion.delete()
     return Response('User Deleted')
+
+

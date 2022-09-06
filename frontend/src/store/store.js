@@ -12,6 +12,7 @@ import { userDeleteSlice } from "./userDelete/userDeleteSlice";
 import { userListSlice } from "./userList/userListSlice";
 import { userProfileSlice } from "./userProfile/profileSlice";
 import { userUpdateProfileSlice } from "./userProfile/updateProfileSlice";
+import { userUpdateAdminSlice } from "./userUpdateAdmin/userUpdateAdminSlice";
 
 export const store = configureStore({
   reducer: {
@@ -23,6 +24,7 @@ export const store = configureStore({
     userProfile: userProfileSlice.reducer,
     userUpdateProfile: userUpdateProfileSlice.reducer,
     userDelete: userDeleteSlice.reducer,
+    userUpdate: userUpdateAdminSlice.reducer,
     userList: userListSlice.reducer,
     orderCreate: orderSlice.reducer,
     orderDetails: orderDetailsSlice.reducer,

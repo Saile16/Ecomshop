@@ -48,7 +48,7 @@ const ProfileScreen = () => {
       navigate("/login");
       return;
     }
-    if (!user || !user.name || success) {
+    if (!user || !user.name || success || user._id !== userInfo._id) {
       dispatch(userUpdateProfileReset());
       dispatch(startGettingUserProfile("profile"));
       dispatch(startGettingOrderList());

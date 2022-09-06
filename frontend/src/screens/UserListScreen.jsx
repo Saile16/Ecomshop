@@ -9,6 +9,7 @@ import Message from "../components/Message.jsx";
 import { useDispatch, useSelector } from "react-redux";
 
 import { startGettingListUser } from "../store/userList/thunks.js";
+import { startDeletingUser } from "../store/userDelete/thunks.js";
 const UserListScreen = () => {
   const dispatch = useDispatch();
 
@@ -19,6 +20,10 @@ const UserListScreen = () => {
   const user = useSelector((state) => state.userAuth);
   const { userInfo } = user;
   //   console.log(userInfo);
+
+  const userDelete = useSelector((state) => state.userDelete);
+  const { success: successDelete } = userDelete;
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,9 +32,11 @@ const UserListScreen = () => {
       return;
     }
     navigate("/login");
-  }, [dispatch]);
+  }, [dispatch, successDelete]);
   const deleteHandler = (id) => {
-    console.log(id);
+    if (window.confirm("Are you sure you want to delete this user?")) {
+      dispatch(startDeletingUser(id));
+    }
   };
   return (
     <div>

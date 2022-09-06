@@ -1,26 +1,28 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const productDeleteSlice = createSlice({
-  name: "productDelete",
+export const productUpdateSlice = createSlice({
+  name: "productUpdate",
   initialState: {
+    product: {},
     loading: false,
     success: false,
     errorMessage: "",
   },
   reducers: {
-    productDeleteRequest: (state) => {
+    productUpdateRequest: (state) => {
       state.loading = true;
     },
-    productDeleteSuccess: (state) => {
+    productUpdateSuccess: (state, action) => {
       state.loading = false;
       state.success = true;
+      state.product = action.payload;
     },
-    productDeleteFail: (state) => {
+    productUpdateFail: (state, action) => {
       state.loading = false;
-      state.success = false;
       state.errorMessage = action.payload;
     },
-    productDeleteReset: (state) => {
+    productUpdateReset: (state, action) => {
+      state.product = {};
       state.loading = false;
       state.success = false;
       state.errorMessage = "";
@@ -30,8 +32,8 @@ export const productDeleteSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
-  productDeleteRequest,
-  productDeleteSuccess,
-  productDeleteFail,
-  productDeleteReset,
-} = productDeleteSlice.actions;
+  productUpdateRequest,
+  productUpdateSuccess,
+  productUpdateFail,
+  productUpdateReset,
+} = productUpdateSlice.actions;

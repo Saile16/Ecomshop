@@ -5,6 +5,7 @@ import { orderDetailsSlice } from "./order/orderDetails";
 import { orderListSlice } from "./order/orderList";
 import { orderPaySlice } from "./order/orderPay";
 import { orderSlice } from "./order/orderSlice";
+import { productDeleteSlice } from "./products/productDeleteSlice";
 import { productDetailsSlice } from "./products/productDetails";
 import { productsSlice } from "./products/productsSlice";
 import { userRegisterSlice } from "./register/registerSlice";
@@ -18,6 +19,7 @@ export const store = configureStore({
   reducer: {
     products: productsSlice.reducer,
     productDetails: productDetailsSlice.reducer,
+    productDelete: productDeleteSlice.reducer,
     cart: cartSlice.reducer,
     userAuth: userAuthSlice.reducer,
     userRegister: userRegisterSlice.reducer,

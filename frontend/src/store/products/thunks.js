@@ -9,6 +9,10 @@ import {
   getProductDetailSuccess,
   loadingDetailProducts,
 } from "./productDetails";
+import {
+  productDeleteRequest,
+  productDeleteSuccess,
+} from "./productDeleteSlice";
 
 export const startGettingProducts = () => {
   return async (dispatch) => {
@@ -37,6 +41,38 @@ export const startGettingProductDetail = (id) => {
       dispatch(getProductDetailSuccess(data));
     } catch (error) {
       dispatch(getProductDetailFailure(error.message));
+    }
+  };
+};
+
+export const startDeletingProduct = (id) => {
+  return async (dispatch, getState) => {
+    dispatch(productDeleteRequest());
+    try {
+      const {
+        userAuth: { userInfo },
+      } = getState();
+      //   console.log(userInfo.token);
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+      const { data } = await axios.delete(
+        `http://127.0.0.1:8000/api/products/delete/${id}/`,
+        config
+      );
+
+      dispatch(productDeleteSuccess());
+    } catch (error) {
+      dispatch(
+        getProductDetailFailure(
+          error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message
+        )
+      );
     }
   };
 };

@@ -6,13 +6,17 @@ export const productsSlice = createSlice({
     products: [],
     loading: false,
     errorMessage: "",
+    page: 1,
+    pages: 1,
   },
   reducers: {
     loadingProducts: (state) => {
       state.loading = true;
     },
     getProductsSuccess: (state, action) => {
-      state.products = action.payload;
+      state.products = action.payload.products;
+      state.page = action.payload.page;
+      state.pages = action.payload.pages;
       state.loading = false;
     },
     getProductsFailure: (state, action) => {

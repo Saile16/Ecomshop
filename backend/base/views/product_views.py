@@ -7,6 +7,7 @@ from rest_framework.permissions import IsAuthenticated,IsAdminUser
 from rest_framework.response import Response
 
 
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from base.models import Product,Review
 from django.contrib.auth.models import User
@@ -33,9 +34,27 @@ def getProducts(request):
     # products=Product.objects.all()
     #de esta manera filtramos los productos que contengan ese query
     products=Product.objects.filter(name__icontains=query)
+    #de esta manera paginamos los productos
+    page=request.query_params.get('page')
+    paginator=Paginator(products,4)
+    try:
+        products=paginator.page(page)
+    #cuando inicamos la pagina no hay ningun parametro
+    except PageNotAnInteger:
+        products=paginator.page(1)
+
+    #cuando llegamos al final de la pagina y asi no permitimos al user a ir mas
+    #lejos de las paginas que ya tenemos
+    except EmptyPage:
+        products=paginator.page(paginator.num_pages)
+
+    if page == None:
+        page=1
+
+    page=int(page)
     #estamos mostrando varios productos por tanto el many va true
     serializer=ProductSerializer(products,many=True)
-    return Response(serializer.data)
+    return Response({"products":serializer.data,"page":page,"pages":paginator.num_pages})
 
 
 @api_view(['GET']) 

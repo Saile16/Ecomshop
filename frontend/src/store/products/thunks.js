@@ -23,6 +23,11 @@ import {
   productUpdateRequest,
   productUpdateSuccess,
 } from "./productUpdateSlice";
+import {
+  productCreateReviewFail,
+  productCreateReviewRequest,
+  productCreateReviewSuccess,
+} from "./productCreateReviewSlice";
 
 export const startGettingProducts = () => {
   return async (dispatch) => {
@@ -145,6 +150,39 @@ export const startUpdatingProduct = (product) => {
     } catch (error) {
       dispatch(
         productUpdateFail(
+          error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message
+        )
+      );
+    }
+  };
+};
+
+export const startCreatingProductReview = (productId, review) => {
+  return async (dispatch, getState) => {
+    dispatch(productCreateReviewRequest());
+    try {
+      const {
+        userAuth: { userInfo },
+      } = getState();
+      //   console.log(userInfo.token);
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+      const { data } = await axios.post(
+        `http://127.0.0.1:8000/api/products/${productId}/reviews/`,
+        review,
+        config
+      );
+
+      dispatch(productCreateReviewSuccess(data));
+    } catch (error) {
+      dispatch(
+        productCreateReviewFail(
           error.response && error.response.data.detail
             ? error.response.data.detail
             : error.message

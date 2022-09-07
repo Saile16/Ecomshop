@@ -7,6 +7,7 @@ import { orderListSlice } from "./order/orderList";
 import { orderListAdminSlice } from "./order/orderListAdminSlice";
 import { orderPaySlice } from "./order/orderPay";
 import { orderSlice } from "./order/orderSlice";
+import { productCreateReviewSlice } from "./products/productCreateReviewSlice";
 import { productCreateSlice } from "./products/productCreateSlice";
 import { productDeleteSlice } from "./products/productDeleteSlice";
 import { productDetailsSlice } from "./products/productDetails";
@@ -26,6 +27,7 @@ export const store = configureStore({
     productDelete: productDeleteSlice.reducer,
     productCreate: productCreateSlice.reducer,
     productUpdate: productUpdateSlice.reducer,
+    productCreateReview: productCreateReviewSlice.reducer,
     cart: cartSlice.reducer,
     userAuth: userAuthSlice.reducer,
     userRegister: userRegisterSlice.reducer,

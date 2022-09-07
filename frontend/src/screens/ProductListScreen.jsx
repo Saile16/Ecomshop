@@ -106,7 +106,11 @@ const ProductListScreen = () => {
             {products?.map((product) => (
               <tr key={product._id}>
                 <td>{product._id}</td>
-                <td>{product.name}</td>
+                <td>
+                  <LinkContainer to={`/product/${product._id}`}>
+                    <p>{product.name}</p>
+                  </LinkContainer>
+                </td>
                 <td>{product.price}</td>
                 <td>{product.category}</td>
                 <td>{product.brand}</td>

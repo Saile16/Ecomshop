@@ -15,16 +15,18 @@ import { useSelector, useDispatch } from "react-redux";
 import Message from "../components/Message.jsx";
 import Loader from "../components/Loader.jsx";
 import {
+  startDeliveringOrder,
   startGettingOrderDetails,
   startPayingOrder,
 } from "../store/order/thunks.js";
 import { orderPayReset } from "../store/order/orderPay.js";
 import PaypalCheckoutButton from "../components/PaypalCheckoutButton.jsx";
+import { orderDeliveredReset } from "../store/order/orderDeliveredSlice.js";
 
 const OrderScreen = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const orderDetails = useSelector((state) => state.orderDetails);
   const { order, loading, errorMessage } = orderDetails;
 
@@ -32,8 +34,14 @@ const OrderScreen = () => {
   const { loading: loadingPay, success: successPay } = orderPay;
   //   console.log(order);
 
-  const orderTemporal = Object.assign({}, order, {});
+  const orderDelivered = useSelector((state) => state.orderDelivered);
+  const { loading: loadingDelivered, success: successDelivered } =
+    orderDelivered;
 
+  const userAuth = useSelector((state) => state.userAuth);
+  const { userInfo } = userAuth;
+
+  const orderTemporal = Object.assign({}, order, {});
   orderTemporal.itemsPrice = order.orderItems
     ?.reduce((acc, item) => acc + item.price * item.qty, 0)
     .toFixed(2);
@@ -41,23 +49,22 @@ const OrderScreen = () => {
   //AfAq6-vbu_A5Z59iTqNGVn9EuSuFuA4n1hout5Hk-eMi0y27JGrJuboHcT6g2wAuOzIRzxhSH1yViKIg
 
   useEffect(() => {
-    if (!order || successPay || order._id !== Number(id)) {
+    if (!userInfo) {
+      navigate("/login");
+      return;
+    }
+    if (!order || successPay || order._id !== Number(id) || successDelivered) {
       // if (!order || order._id !== Number(id)) {
       dispatch(orderPayReset());
+      dispatch(orderDeliveredReset());
       dispatch(startGettingOrderDetails(id));
       return;
     }
-    if (order.isPaid) {
-      //   if (!window.paypal) {
-      //     addPaypalScript();
-      //   } else {
-      //     setSdkReady(true);
-      //   }
-      //   setSdkReady(true);
-    }
-    // dispatch(startGettingOrderDetails(id));
-  }, [dispatch, id, order, successPay]);
+  }, [dispatch, id, order, successPay, successDelivered]);
 
+  const deliverHandler = () => {
+    dispatch(startDeliveringOrder(order));
+  };
   return loading ? (
     <Loader />
   ) : errorMessage ? (
@@ -179,6 +186,21 @@ const OrderScreen = () => {
                 </ListGroup.Item>
               )}
             </ListGroup>
+            {loadingDelivered && <Loader />}
+            {userInfo &&
+              userInfo.isAdmin &&
+              order.isPaid &&
+              !order.isDelivered && (
+                <ListGroup.Item className="p-2">
+                  <Button
+                    onClick={deliverHandler}
+                    type="button"
+                    className="btn d-block w-100"
+                  >
+                    Mark As Delivered
+                  </Button>
+                </ListGroup.Item>
+              )}
           </Card>
         </Col>
       </Row>

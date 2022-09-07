@@ -1,8 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { userAuthSlice } from "./auth/authSlice";
 import { cartSlice } from "./cart/cartSlice";
+import { orderDeliveredSlice } from "./order/orderDeliveredSlice";
 import { orderDetailsSlice } from "./order/orderDetails";
 import { orderListSlice } from "./order/orderList";
+import { orderListAdminSlice } from "./order/orderListAdminSlice";
 import { orderPaySlice } from "./order/orderPay";
 import { orderSlice } from "./order/orderSlice";
 import { productCreateSlice } from "./products/productCreateSlice";
@@ -35,7 +37,9 @@ export const store = configureStore({
     orderCreate: orderSlice.reducer,
     orderDetails: orderDetailsSlice.reducer,
     orderPay: orderPaySlice.reducer,
+    orderDelivered: orderDeliveredSlice.reducer,
     orderList: orderListSlice.reducer,
+    orderListAdmin: orderListAdminSlice.reducer,
   },
   // middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });

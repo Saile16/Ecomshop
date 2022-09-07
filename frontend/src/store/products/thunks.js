@@ -29,12 +29,14 @@ import {
   productCreateReviewSuccess,
 } from "./productCreateReviewSlice";
 
-export const startGettingProducts = () => {
+export const startGettingProducts = (keyword = "") => {
   return async (dispatch) => {
     dispatch(loadingProducts());
 
     try {
-      const { data } = await axios("http://127.0.0.1:8000/api/products/");
+      const { data } = await axios(
+        `http://127.0.0.1:8000/api/products${keyword}`
+      );
       dispatch(getProductsSuccess(data));
       // console.log(dispatch(getProductsSuccess(data)));
       // console.log(data);

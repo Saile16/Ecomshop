@@ -6,14 +6,17 @@ import Product from "../components/Product.jsx";
 import { startGettingProducts } from "../store/products/thunks.js";
 import Loader from "../components/Loader.jsx";
 import Message from "../components/Message.jsx";
+import { useLocation } from "react-router-dom";
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
-
+  const location = useLocation();
+  let keyword = location.search;
+  console.log(keyword);
   useEffect(() => {
-    dispatch(startGettingProducts());
+    dispatch(startGettingProducts(keyword));
     console.log("useffect");
-  }, [dispatch]);
+  }, [dispatch, keyword]);
 
   const { products, loading, errorMessage } = useSelector(
     (state) => state.products

@@ -28,6 +28,11 @@ import {
   productCreateReviewRequest,
   productCreateReviewSuccess,
 } from "./productCreateReviewSlice";
+import {
+  productTopRatedRequest,
+  productTopRatedRequestFail,
+  productTopRatedRequestSuccess,
+} from "./productTopRatedSlice";
 
 export const startGettingProducts = (keyword = "") => {
   return async (dispatch) => {
@@ -185,6 +190,39 @@ export const startCreatingProductReview = (productId, review) => {
     } catch (error) {
       dispatch(
         productCreateReviewFail(
+          error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message
+        )
+      );
+    }
+  };
+};
+
+//Top rated products
+export const startGettingProductTopRated = () => {
+  return async (dispatch, getState) => {
+    dispatch(productTopRatedRequest());
+    try {
+      const {
+        userAuth: { userInfo },
+      } = getState();
+      //   console.log(userInfo.token);
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+      const { data } = await axios.get(
+        `http://127.0.0.1:8000/api/products/top/`,
+        config
+      );
+
+      dispatch(productTopRatedRequestSuccess(data));
+    } catch (error) {
+      dispatch(
+        productTopRatedRequestFail(
           error.response && error.response.data.detail
             ? error.response.data.detail
             : error.message

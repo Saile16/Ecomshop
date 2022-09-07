@@ -12,6 +12,7 @@ import { productCreateSlice } from "./products/productCreateSlice";
 import { productDeleteSlice } from "./products/productDeleteSlice";
 import { productDetailsSlice } from "./products/productDetails";
 import { productsSlice } from "./products/productsSlice";
+import { productTopRatedSlice } from "./products/productTopRatedSlice";
 import { productUpdateSlice } from "./products/productUpdateSlice";
 import { userRegisterSlice } from "./register/registerSlice";
 import { userDeleteSlice } from "./userDelete/userDeleteSlice";
@@ -28,6 +29,7 @@ export const store = configureStore({
     productCreate: productCreateSlice.reducer,
     productUpdate: productUpdateSlice.reducer,
     productCreateReview: productCreateReviewSlice.reducer,
+    productTopRated: productTopRatedSlice.reducer,
     cart: cartSlice.reducer,
     userAuth: userAuthSlice.reducer,
     userRegister: userRegisterSlice.reducer,

@@ -8,6 +8,7 @@ import Loader from "../components/Loader.jsx";
 import Message from "../components/Message.jsx";
 import { useLocation } from "react-router-dom";
 import Paginate from "../components/Paginate.jsx";
+import ProductCarousel from "../components/ProductCarousel.jsx";
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -27,6 +28,7 @@ const HomeScreen = () => {
   return (
     <div>
       {/* {JSON.stringify(products)} */}
+      {!keyword && <ProductCarousel />}
       <h1>Latest Products</h1>
       {loading ? (
         <Loader />

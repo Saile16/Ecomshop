@@ -22,7 +22,7 @@ const ProductListScreen = () => {
 
   const productList = useSelector((state) => state.products);
   const { loading, errorMessage, products, pages, page } = productList;
-  console.log(productList);
+  // console.log(productList);
 
   const productDelete = useSelector((state) => state.productDelete);
   const {

@@ -6,7 +6,7 @@ const SearchBox = () => {
   const [keyword, setKeyword] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
-  console.log(location);
+  // console.log(location);
   const submitHandler = (e) => {
     e.preventDefault();
     if (keyword) {

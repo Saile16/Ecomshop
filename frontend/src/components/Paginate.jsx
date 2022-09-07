@@ -5,7 +5,7 @@ const Paginate = ({ pages, page, keyword = "", isAdmin = false }) => {
   if (keyword) {
     keyword = keyword.split("?keyword=")[1].split("&")[0];
   }
-  console.log(`Keyword: ${keyword}`);
+  // console.log(`Keyword: ${keyword}`);
   return (
     pages > 1 && (
       <Pagination>

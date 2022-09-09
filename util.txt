@@ -6,3 +6,10 @@ It is impossible to add the field 'createdAt' with 'auto_now_add=True' to review
 
 Elegimos opcion 1 y dentro escribimos
 timezone.now
+
+
+DURANTE TODO EL DESAROLLO DEL PROYECTO LA CARPETA DE FRONT ESTUVO AL MISMO NIVEL QUE
+ENV
+BACKEND
+
+COMO YA TERMINAMOS Y QUEREMOS LA IMPLEMENTACION LO PONEMOS DENTRO DE BACKEND

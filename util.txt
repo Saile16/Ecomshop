@@ -13,3 +13,9 @@ ENV
 BACKEND
 
 COMO YA TERMINAMOS Y QUEREMOS LA IMPLEMENTACION LO PONEMOS DENTRO DE BACKEND
+
+
+//estamos instalando 
+pip install boto3
+
+pip install django-storages

@@ -124,7 +124,7 @@ const OrderScreen = () => {
                       <Row>
                         <Col md={1}>
                           <Image
-                            src={`http://127.0.0.1:8000${item.image}`}
+                            src={item.image}
                             alt={item.name}
                             fluid
                             rounded

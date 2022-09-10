@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
 
     "corsheaders",
-
+    'storages',
     'base'
 ]
 
@@ -204,13 +204,21 @@ STATICFILES_DIRS=[
     # os.path.join(BASE_DIR, 'frontend','dist','assets'),
 ]
 
-MEDIA_ROOT='static/images'
+MEDIA_ROOT=BASE_DIR / 'static/images'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
+
+#en produccion necesitamos STATIC_ROOT
+STATIC_ROOT=BASE_DIR / 'staticfiles'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOW_ALL_ORIGINS = True
     
 
+AWS_QUERYSTRING_AUTH = False
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_ACCESS_KEY_ID = 'AKIAXSE3VW2R4UZRKTVO'
+AWS_SECRET_ACCESS_KEY = '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'
 
+AWS_STORAGE_BUCKET_NAME = 'ecomshop-bucket'

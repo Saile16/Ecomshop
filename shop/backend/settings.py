@@ -20,10 +20,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-o5z1^#*prurrl=t@g5mfn3i2fj7x6a*y0(q*=xvr8=$vbb-v%3'
-
+# SECRET_KEY = 'django-insecure-o5z1^#*prurrl=t@g5mfn3i2fj7x6a*y0(q*=xvr8=$vbb-v%3'
+SECRET_KEY=os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG=str(os.environ.get('DEBUG'))
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost',]
 
@@ -152,9 +152,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'ecomshop',
-        'USER': 'saile1',
-        'PASSWORD': '96946820Alex',
-        'HOST': 'ecomshop-identifier.c96bjgezgcjc.us-east-1.rds.amazonaws.com',
+        'USER': os.environ.get('USER'),
+        'PASSWORD': os.environ.get('PASSWORD'),
+        'HOST': os.environ.get('HOST'),
         'PORT': '5432',
     }
 }
@@ -216,9 +216,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOW_ALL_ORIGINS = True
     
 
-AWS_QUERYSTRING_AUTH = False
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-AWS_ACCESS_KEY_ID = 'AKIAXSE3VW2R4UZRKTVO'
-AWS_SECRET_ACCESS_KEY = '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'
 
-AWS_STORAGE_BUCKET_NAME = 'ecomshop-bucket'
+AWS_QUERYSTRING_AUTH = False
+DEFAULT_FILE_STORAGE = os.environ.get('DEFAULT_FILE_STORAGE'),
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID'),
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY'),
+
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME'),

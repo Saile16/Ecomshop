@@ -47,7 +47,13 @@ export const startCreatingOrder = (order) => {
       dispatch(cartClearItems());
       localStorage.removeItem("cartItems");
     } catch (error) {
-      dispatch(orderCreateFail(error.response));
+      dispatch(
+        orderCreateFail(
+          error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message
+        )
+      );
     }
   };
 };

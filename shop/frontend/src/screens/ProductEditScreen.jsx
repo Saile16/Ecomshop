@@ -158,7 +158,7 @@ const ProductEditScreen = () => {
             ></Form.Control>
             {uploading && <Loader />}
             <Form.Group controlId="brand">
-              <Form.Label>Name</Form.Label>
+              <Form.Label>Brand</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter Brand"

@@ -33,8 +33,14 @@ export const startLoginAuth = (email, password) => {
       localStorage.setItem("userInfo", JSON.stringify(data));
     } catch (error) {
       //hacer ternarios para los diferentes mensajes de error
-      // dispatch(userLoginFailure(error.response.data.detail));
-      console.log(error);
+      dispatch(
+        userLoginFailure(
+          error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message
+        )
+      );
+      // console.log(error);
     }
   };
 };

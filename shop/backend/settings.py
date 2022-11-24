@@ -20,10 +20,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'django-insecure-o5z1^#*prurrl=t@g5mfn3i2fj7x6a*y0(q*=xvr8=$vbb-v%3'
-SECRET_KEY=os.environ.get('SECRET_KEY')
+SECRET_KEY = 'django-insecure-o5z1^#*prurrl=t@g5mfn3i2fj7x6a*y0(q*=xvr8=$vbb-v%3'
+
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG=str(os.environ.get('DEBUG'))
+DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost',]
 
@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
 
     "corsheaders",
-    'storages',
+
     'base'
 ]
 
@@ -131,34 +131,25 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-# DATABASES = {
-#     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
 #         'NAME': 'ecomshop',
-#         'USER': 'postgres',
-#         'PASSWORD': '96946820',
-#         'HOST': 'localhost',
+#         'USER': os.environ.get('USER'),
+#         'PASSWORD': os.environ.get('PASSWORD'),
 #         'PORT': '5432',
+#         # 'HOST': os.environ.get('HOST'),
+        
 #     }
 # }
 
 
+# SQLITE
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ecomshop',
-        'USER': os.environ.get('USER'),
-        'PASSWORD': os.environ.get('PASSWORD'),
-        'HOST': os.environ.get('HOST'),
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
+print(os.environ.get('PASSWORD',"rtasdsadasadsadssadaasddas"))
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -204,12 +195,9 @@ STATICFILES_DIRS=[
     # os.path.join(BASE_DIR, 'frontend','dist','assets'),
 ]
 
-MEDIA_ROOT=BASE_DIR / 'static/images'
+MEDIA_ROOT='static/images'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
-
-#en produccion necesitamos STATIC_ROOT
-STATIC_ROOT=BASE_DIR / 'staticfiles'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -217,9 +205,3 @@ CORS_ALLOW_ALL_ORIGINS = True
     
 
 
-AWS_QUERYSTRING_AUTH = False
-DEFAULT_FILE_STORAGE = os.environ.get('DEFAULT_FILE_STORAGE'),
-AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID'),
-AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY'),
-
-AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME'),
